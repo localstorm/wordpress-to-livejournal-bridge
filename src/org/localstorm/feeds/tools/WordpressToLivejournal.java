@@ -44,7 +44,7 @@ public class WordpressToLivejournal {
             NaiveDupesDetector dd = new NaiveDupesDetector();
 
             // Look twice as deep for dupes
-            if (true || dd.needsPublishing(e, lj, REPUBLISH_DEPTH * 2)) {
+            if (dd.needsPublishing(e, lj, REPUBLISH_DEPTH * 2)) {
                 ljPoster.post(e, ljDecor);
             } else {
                 System.out.println("No republishing: " + e.toString(Mode.MINIMAL));
