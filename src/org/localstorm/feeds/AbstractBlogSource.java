@@ -45,7 +45,8 @@ public abstract class AbstractBlogSource implements BlogSource {
     public List<BlogEntry> read() throws Exception {
         List<BlogEntry> entries = readCached();
         if (entries == null) {
-            return cache(readDirect());
+            entries = readDirect();
+            return cache(entries);
         } else {
             return entries;
         }

@@ -1,5 +1,6 @@
 package org.localstorm.feeds.dupes;
 
+import com.sun.org.apache.xpath.internal.SourceTree;
 import org.localstorm.feeds.BlogEntry;
 import org.localstorm.feeds.BlogSource;
 import org.localstorm.feeds.DupesDetector;

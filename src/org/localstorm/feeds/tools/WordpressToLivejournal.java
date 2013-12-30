@@ -4,10 +4,7 @@ import org.localstorm.feeds.*;
 import org.localstorm.feeds.blogs.LivejournalPoster;
 import org.localstorm.feeds.blogs.LivejournalSource;
 import org.localstorm.feeds.blogs.WordpressSource;
-import org.localstorm.feeds.decor.ChainedDecoration;
-import org.localstorm.feeds.decor.LinkForwardDecoration;
-import org.localstorm.feeds.decor.TagsForceDecoration;
-import org.localstorm.feeds.decor.TitlePrefixDecoration;
+import org.localstorm.feeds.decor.*;
 import org.localstorm.feeds.dupes.NaiveDupesDetector;
 
 import java.util.Collections;
@@ -33,6 +30,7 @@ public class WordpressToLivejournal {
         BlogPoster ljPoster = new LivejournalPoster(args[0], args[1]);
         EntryDecorator ljDecor = new ChainedDecoration(
                 new LinkForwardDecoration(),
+                new RegExTitleDecoration("^\\[[a-zA-Z]+\\]:", ""),
                 new TitlePrefixDecoration("[WP]: "),
                 new TagsForceDecoration("stuff to read")
         );
@@ -41,7 +39,7 @@ public class WordpressToLivejournal {
         List<BlogEntry> entries = wp.read(REPUBLISH_DEPTH);
         for (BlogEntry e : entries) {
             NaiveDupesDetector dd = new NaiveDupesDetector();
-            if (dd.needsPublishing(e, lj, REPUBLISH_DEPTH)) {
+            if (dd.needsPublishing(e, lj, REPUBLISH_DEPTH * 2)) {
                 ljPoster.post(e, ljDecor);
             } else {
                 System.out.println("No republishing: " + e.toString(Mode.MINIMAL));
