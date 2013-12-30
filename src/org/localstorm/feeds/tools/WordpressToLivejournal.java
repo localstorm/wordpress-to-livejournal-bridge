@@ -29,6 +29,7 @@ public class WordpressToLivejournal {
 
         BlogPoster ljPoster = new LivejournalPoster(args[0], args[1]);
         EntryDecorator ljDecor = new ChainedDecoration(
+                new TimeZoneDecoration("GMT+04"),
                 new LinkForwardDecoration(),
                 new RegExTitleDecoration("^\\[[a-zA-Z]+\\]:", ""),
                 new TitlePrefixDecoration("[WP]: "),
@@ -43,7 +44,7 @@ public class WordpressToLivejournal {
             NaiveDupesDetector dd = new NaiveDupesDetector();
 
             // Look twice as deep for dupes
-            if (dd.needsPublishing(e, lj, REPUBLISH_DEPTH * 2)) {
+            if (true || dd.needsPublishing(e, lj, REPUBLISH_DEPTH * 2)) {
                 ljPoster.post(e, ljDecor);
             } else {
                 System.out.println("No republishing: " + e.toString(Mode.MINIMAL));

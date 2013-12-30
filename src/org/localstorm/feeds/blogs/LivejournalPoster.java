@@ -42,8 +42,8 @@ public class LivejournalPoster extends AbstractBlogPoster {
         pea.setEvent(e.getBody());
         pea.setProps(Collections.singletonMap("taglist", toCsv(e.getTags())));
 
-        rpcClient.postevent(pea, 10000);
         System.out.println("Posting: " + e);
+        rpcClient.postevent(pea, 10000);
     }
 
     private String toCsv(List<String> tags) {
