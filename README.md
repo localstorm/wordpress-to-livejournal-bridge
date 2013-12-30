@@ -9,11 +9,7 @@ How to run:
 
 Try republishing the last 5 posts from localstorm.wordpress.com to localstorm.livejournal.com (hardcoded):
 
-Unix:
 java -cp "dist/*" org.localstorm.feeds.tools.WordpressToLivejournal <lj-user> <lj-password>
-
-Windows:
-java -cp "dist\\*" org.localstorm.feeds.tools.WordpressToLivejournal <lj-user> <lj-password>
 
 -----------------------------------------------
 Requirements:
