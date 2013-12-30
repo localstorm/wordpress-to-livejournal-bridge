@@ -32,13 +32,17 @@ public class WordpressToLivejournal {
                 new LinkForwardDecoration(),
                 new RegExTitleDecoration("^\\[[a-zA-Z]+\\]:", ""),
                 new TitlePrefixDecoration("[WP]: "),
-                new TagsForceDecoration("stuff to read")
+                new ForceTagsDecoration("stuff to read")
         );
 
+        // some default tag in WP, no good
         wp.setIgnoreTags(Collections.<String>singleton("Uncategorized"));
+
         List<BlogEntry> entries = wp.read(REPUBLISH_DEPTH);
         for (BlogEntry e : entries) {
             NaiveDupesDetector dd = new NaiveDupesDetector();
+
+            // Look twice as deep for dupes
             if (dd.needsPublishing(e, lj, REPUBLISH_DEPTH * 2)) {
                 ljPoster.post(e, ljDecor);
             } else {

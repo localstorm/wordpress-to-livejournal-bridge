@@ -10,11 +10,11 @@ import java.util.Arrays;
  * @author localstorm
  *         Date: 30.12.13
  */
-public class TagsForceDecoration implements EntryDecorator {
+public class ForceTagsDecoration implements EntryDecorator {
 
     private final String[] tags;
 
-    public TagsForceDecoration(String ... tags) {
+    public ForceTagsDecoration(String... tags) {
         this.tags = tags;
     }
 

@@ -5,5 +5,5 @@ package org.localstorm.feeds;
  *         Date: 30.12.13
  */
 public interface BlogPoster {
-    public void post(BlogEntry e, EntryDecorator decorator) throws Exception;
+    public boolean post(BlogEntry e, EntryDecorator decorator) throws Exception;
 }

@@ -1,7 +1,6 @@
 package org.localstorm.feeds.blogs;
 
 import org.katkov.lj.ClientsFactory;
-import org.katkov.lj.ConvenientClient;
 import org.katkov.lj.XMLRPCClient;
 import org.katkov.lj.xmlrpc.arguments.PostEventArgument;
 import org.localstorm.feeds.AbstractBlogPoster;

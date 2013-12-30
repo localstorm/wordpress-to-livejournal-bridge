@@ -7,13 +7,17 @@ package org.localstorm.feeds;
 public abstract class AbstractBlogPoster implements BlogPoster {
 
     @Override
-    public void post(BlogEntry e, EntryDecorator decor) throws Exception {
+    public boolean post(BlogEntry e, EntryDecorator decor) throws Exception {
         if (e != null) {
             if (decor != null) {
                 e = decor.decorate(e);
             }
-            postDirect(e);
+            if (e != null) {
+                postDirect(e);
+                return true;
+            }
         }
+        return false;
     }
 
     protected abstract void postDirect(BlogEntry e);

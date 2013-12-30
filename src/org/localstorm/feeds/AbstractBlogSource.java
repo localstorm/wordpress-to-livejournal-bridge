@@ -3,7 +3,10 @@ package org.localstorm.feeds;
 import com.sun.syndication.feed.synd.SyndCategory;
 import com.sun.syndication.feed.synd.SyndContent;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author localstorm
@@ -15,10 +18,6 @@ public abstract class AbstractBlogSource implements BlogSource {
     private List<BlogEntry> entries = new ArrayList<>();
     private Set<String> ignoreTags = new HashSet<>();
     private long cacheTTL;
-
-    public Set<String> getIgnoreTags() {
-        return ignoreTags;
-    }
 
     @Override
     public void setCacheTTL(long ttlMillis) {
@@ -45,8 +44,7 @@ public abstract class AbstractBlogSource implements BlogSource {
     public List<BlogEntry> read() throws Exception {
         List<BlogEntry> entries = readCached();
         if (entries == null) {
-            entries = readDirect();
-            return cache(entries);
+            return cache(readDirect());
         } else {
             return entries;
         }
