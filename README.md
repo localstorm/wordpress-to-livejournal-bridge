@@ -13,7 +13,7 @@ Unix:
 java -cp "dist/*" org.localstorm.feeds.tools.WordpressToLivejournal <lj-user> <lj-password>
 
 Windows:
-java -cp "dist\*" org.localstorm.feeds.tools.WordpressToLivejournal <lj-user> <lj-password>
+java -cp "dist\\*" org.localstorm.feeds.tools.WordpressToLivejournal <lj-user> <lj-password>
 
 -----------------------------------------------
 Requirements:
