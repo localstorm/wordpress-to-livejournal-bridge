@@ -6,6 +6,9 @@ import org.localstorm.feeds.DupesDetector;
 
 import java.util.List;
 
+import static org.localstorm.feeds.util.TextUtil.textSimilarPct;
+import static org.localstorm.feeds.util.TextUtil.toPlainText;
+
 /**
  * @author localstorm
  *         Date: 30.12.13
@@ -24,43 +27,40 @@ public class NaiveDupesDetector implements DupesDetector {
     }
 
     private boolean isReplicaOf(BlogEntry candidate, BlogEntry found) {
-        return linkForwarding(candidate, found) || contentProximity(candidate, found);
+        return linkForwarding(candidate, found) ||
+               snippetProximity(candidate, found) ||
+               contentProximity(candidate, found);
+    }
+
+    private boolean snippetProximity(BlogEntry candidate, BlogEntry found) {
+        String tx1 = (candidate.getBody() != null) ? candidate.getBody() : "";
+        String tx2 = (found.getBody() != null) ? found.getBody() : "";
+        tx1 = toPlainText(tx1);
+        tx2 = toPlainText(tx2);
+        if (tx1.length() > tx2.length()) {
+            String tx = tx1;
+            tx1 = tx2;
+            tx2 = tx;
+        }
+
+        tx2 = tx2.substring(0, tx1.length());
+        if (tx1.isEmpty() != tx2.isEmpty()) {
+            return false;
+        } else {
+            return textSimilarPct(tx1, tx2, 80);
+        }
     }
 
     private boolean contentProximity(BlogEntry candidate, BlogEntry found) {
         String tx1 = (candidate.getBody() != null) ? candidate.getBody() : "";
         String tx2 = (found.getBody() != null) ? found.getBody() : "";
+        tx1 = toPlainText(tx1);
+        tx2 = toPlainText(tx2);
         if (tx1.isEmpty() != tx2.isEmpty()) {
             return false;
         } else {
-            int dist = levenshteinDistance(tx1, tx2);
-            int threshold = Math.min(tx1.length(), tx2.length()) / 10; // ~90% similar
-            return dist < threshold;
+            return textSimilarPct(tx1, tx2, 80);
         }
-    }
-
-
-    public static int levenshteinDistance(String s, String t) {
-        int n = s.length();
-        int m = t.length();
-
-        if (n == 0) return m;
-        if (m == 0) return n;
-
-        int[][] d = new int[n + 1][m + 1];
-
-        for (int i = 0; i <= n; d[i][0] = i++) ;
-        for (int j = 1; j <= m; d[0][j] = j++) ;
-
-        for (int i = 1; i <= n; i++) {
-            char sc = s.charAt(i - 1);
-            for (int j = 1; j <= m; j++) {
-                int v = d[i - 1][j - 1];
-                if (t.charAt(j - 1) != sc) v++;
-                d[i][j] = Math.min(Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1), v);
-            }
-        }
-        return d[n][m];
     }
 
     private boolean linkForwarding(BlogEntry candidate, BlogEntry found) {
